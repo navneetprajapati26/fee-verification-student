@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "296404808067",
+    "project_id": "fee-verification-cp",
+    "storage_bucket": "fee-verification-cp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:296404808067:android:8ead71c8f5b6ac828dc6b6",
+        "android_client_info": {
+          "package_name": "com.example.fee_verification_student"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4ObJdIDqLwCcLzFGy58Mp-yCtxHch_io"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
