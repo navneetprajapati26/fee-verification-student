@@ -6,6 +6,8 @@ enum AuthStateStatus {
   initial,
   loading,
   loaded,
+  register,
+  login,
   logout,
   error,
   connectivityError,

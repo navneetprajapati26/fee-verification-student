@@ -48,4 +48,14 @@ class SignUpRequested extends AuthEvent {
   ];
 }
 
+class GetUserModel extends AuthEvent {}
+
+class UpdateUserInfo extends AuthEvent {
+  final StudentModel studentModel;
+
+  const UpdateUserInfo(this.studentModel);
+
+  @override
+  List<Object> get props => [studentModel];}
+
 class SignOutRequested extends AuthEvent {}

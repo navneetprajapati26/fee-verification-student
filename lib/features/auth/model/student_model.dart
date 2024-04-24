@@ -6,7 +6,7 @@ class StudentModel {
   final String studentRollNo;
   final String studentYear;
   final String studentBranch;
-  final bool isStudentVerified;
+  final bool? isStudentVerified;
 
   StudentModel({
     required this.username,
@@ -16,7 +16,7 @@ class StudentModel {
     required this.studentRollNo,
     required this.studentYear,
     required this.studentBranch,
-    required this.isStudentVerified,
+    this.isStudentVerified,
   });
 
   Map<String, dynamic> toMap() {

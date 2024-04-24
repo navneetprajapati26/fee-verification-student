@@ -40,6 +40,9 @@ dependencies:
   equatable: ^2.0.5
   flutter_bloc: ^8.1.5
   cloud_firestore: ^4.15.8
+  shared_preferences: ^2.2.3
+  firebase_storage: ^11.6.9
+  file_picker: ^8.0.0+1
 
 dev_dependencies:
   flutter_test:

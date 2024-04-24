@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/student_model.dart';
 
@@ -52,16 +53,22 @@ class AuthRepository {
 
   Future<StudentModel?> getUserInfo() async {
     try {
-      final user = _firebaseAuth.currentUser;
-      if (user != null) {
-        final snapshot = await _firebaseFirestore
-            .collection('student')
-            .doc(user.uid)
-            .get();
-        if (snapshot.exists) {
-          log(snapshot.data()!.toString());
-          return StudentModel.fromMap(snapshot.data()!);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? userId = prefs.getString('userId');
+
+      if (userId == null) {
+        final user = _firebaseAuth.currentUser;
+        if (user == null) {
+          // User is not signed in
+          return null;
         }
+        userId = user.uid;
+      }
+
+      final snapshot =
+          await _firebaseFirestore.collection('student').doc(userId).get();
+      if (snapshot.exists) {
+        return StudentModel.fromMap(snapshot.data()!);
       }
       return null;
     } catch (e) {

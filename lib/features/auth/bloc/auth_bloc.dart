@@ -1,16 +1,13 @@
 import 'dart:async';
 import 'dart:developer';
-// import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../model/student_model.dart';
-import '../rapo/auth_rapo.dart';
+import '../repo/auth_rapo.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
-// part of 'auth_bloc.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
@@ -20,6 +17,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignInRequested>(_onSignInRequested);
     on<SignUpRequested>(_onSignUpRequested);
     on<SignOutRequested>(_onSignOutRequested);
+    on<GetUserModel>(_onGetUserModel);
   }
 
   Future<void> _onSignUpRequested(
@@ -43,13 +41,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         studentRollNo: event.studentRollNo,
         studentYear: event.studentYear,
         studentBranch: event.studentBranch,
-        isStudentVerified: false,
       );
 
       await _authRepository.updateUserInfo(studentModel);
 
       emit(state.copyWith(
-        status: AuthStateStatus.loaded,
+        status: AuthStateStatus.register,
         user: studentModel,
       ));
       print('Sign up successful, state: ${state}');
@@ -66,40 +63,61 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       SignInRequested event,
       Emitter<AuthState> emit,
       ) async {
-    log('--------------------------> sign in requested 1 ${state.status}');
     emit(state.copyWith(status: AuthStateStatus.loading));
-    log('--------------------------> sign in requested 2 ${state.status}');
     try {
       await _authRepository.signIn(event.email, event.password);
-      log('--------------------------> sign in requested 3 ${state.status}');
 
       final studentModel = await _authRepository.getUserInfo();
-      log('--------------------------> sign in requested 4 ${state.status}');
 
       if (studentModel != null) {
-        log('--------------------------> sign in requested 5 ${state.status}');
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('userId', studentModel.userId);
 
         emit(state.copyWith(
-          status: AuthStateStatus.loaded,
+          status: AuthStateStatus.login,
           user: studentModel,
         ));
-        log('--------------------------> sign in requested 6 ${state.status}');
 
-        log(state.user.toString());
       } else {
-        log('--------------------------> sign in requested 7 ${state.status}');
 
         emit(state.copyWith(
           status: AuthStateStatus.error,
           errorMessage: 'User information not found',
         ));
 
-        log('--------------------------> sign in requested 8 ${state.status}');
-
       }
     } catch (e) {
-      log('--------------------------> sign in requested 9 ${state.status} and error is ${e.toString()}');
+      emit(state.copyWith(
+        status: AuthStateStatus.error,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
 
+  Future<void> _onGetUserModel(
+      GetUserModel event,
+      Emitter<AuthState> emit,
+      ) async {
+    emit(state.copyWith(status: AuthStateStatus.loading));
+    try {
+      final studentModel = await _authRepository.getUserInfo();
+
+      if (studentModel != null) {
+        emit(state.copyWith(
+          status: AuthStateStatus.loaded,
+          user: studentModel,
+        ));
+
+        log('User info: ${studentModel.toMap()}', name: 'From AuthBloc');
+
+      } else {
+        emit(state.copyWith(
+          status: AuthStateStatus.error,
+          errorMessage: 'User information not found',
+        ));
+      }
+    } catch (e) {
       emit(state.copyWith(
         status: AuthStateStatus.error,
         errorMessage: e.toString(),
@@ -113,6 +131,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       ) async {
     emit(state.copyWith(status: AuthStateStatus.loading));
     try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.remove('userId');
+
       await _authRepository.signOut();
       emit(state.copyWith(
         status: AuthStateStatus.logout,
