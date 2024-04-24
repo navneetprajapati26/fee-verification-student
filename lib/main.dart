@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'features/auth/Screen/login_screen.dart';
 import 'features/auth/bloc/auth_bloc.dart';
 import 'features/auth/repo/auth_rapo.dart';
+import 'features/fee_risipts/bloc/fee_receipt_bloc.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -34,8 +35,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthBloc(AuthRepository()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AuthBloc(AuthRepository()),
+        ),
+        BlocProvider(
+          create: (context) => FeeReceiptBloc(),
+        ),
+        // Add more BlocProviders as needed
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
