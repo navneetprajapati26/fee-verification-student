@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,6 +20,7 @@ class _ScreenSetUpState extends State<ScreenSetUp> {
 
   @override
   void initState() {
+    log('ScreenSetUp', name: 'ScreenSetUp');
     context.read<AuthBloc>().add(GetUserModel());
     super.initState();
   }

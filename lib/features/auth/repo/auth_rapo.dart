@@ -52,7 +52,7 @@ class AuthRepository {
   }
 
   Future<StudentModel?> getUserInfo() async {
-    try {
+    //try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? userId = prefs.getString('userId');
 
@@ -71,8 +71,8 @@ class AuthRepository {
         return StudentModel.fromMap(snapshot.data()!);
       }
       return null;
-    } catch (e) {
-      throw Exception('Error getting user info: $e');
-    }
+    // } catch (e) {
+    //   throw Exception('Error getting user info: $e');
+    // }
   }
 }

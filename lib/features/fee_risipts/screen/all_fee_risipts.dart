@@ -12,6 +12,14 @@ class AllFeeReceipt extends StatefulWidget {
 }
 
 class _AllFeeReceiptState extends State<AllFeeReceipt> {
+
+  @override
+  void initState() {
+
+    context.read<FeeReceiptBloc>().add(GetFeeReceiptsByListOfIdEvent());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +31,11 @@ class _AllFeeReceiptState extends State<AllFeeReceipt> {
         children: [
           FloatingActionButton(
             onPressed: () {
-              context.read<FeeReceiptBloc>().add(UploadImageEvent('your_folder_name'));
+              context.read<FeeReceiptBloc>().add(UploadImageEvent(
+                  folderName: 'your_folder_name',
+                  receiptName: 'your_receipt_name',
+                  receiptYear: 'your_receipt_year',
+                  receiptAmount: 'your_receipt_amount'));
             },
             child: const Icon(Icons.cloud_upload),
             heroTag: 'imageUpload',
@@ -31,33 +43,70 @@ class _AllFeeReceiptState extends State<AllFeeReceipt> {
           SizedBox(height: 10),
           FloatingActionButton(
             onPressed: () {
-              context.read<FeeReceiptBloc>().add(UploadPDFEvent('your_folder_name'));
+              context
+                  .read<FeeReceiptBloc>()
+                  .add(UploadPDFEvent('your_folder_name'));
             },
             child: const Icon(Icons.picture_as_pdf),
             heroTag: 'pdfUpload',
           ),
         ],
       ),
+
       body: BlocBuilder<FeeReceiptBloc, FeeReceiptState>(
         builder: (context, state) {
-          if (state is ImageUploadCompletedState) {
-            return Center(
-              child: state.imageUrl != null
-                  ? Image.network(state.imageUrl!)
-                  : Text('No image uploaded'),
+          if (state.getStatus == FeeReceiptGetStatus.loading) {
+            return const Center(
+              child: CircularProgressIndicator(),
             );
-          } else if (state is PDFUploadCompletedState) {
+          }
+          if(state.getStatus == FeeReceiptGetStatus.loaded){
             return Center(
-              child: state.pdfUrl != null
-                  ? ViewPDF( url: state.pdfUrl! )
-                  : Text('No PDF uploaded'),
+              child: state.feeReceiptModelList != null
+                  ? ListView.builder(
+                      itemCount: state.feeReceiptModelList!.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(state.feeReceiptModelList![index].receiptName!),
+                          subtitle: Text(state.feeReceiptModelList![index].receiptYear!),
+                        );
+                      },
+                    )
+                  : Text('No image uploaded'),
             );
           }
           return const Center(
             child: Text('All Fee receipts'),
           );
         },
-      ),
+      )
+
+      // body: BlocBuilder<FeeReceiptBloc, FeeReceiptState>(
+      //   builder: (context, state) {
+      //     if (state.postStatus == FeeReceiptPostStatus.loading) {
+      //       return const Center(
+      //         child: CircularProgressIndicator(),
+      //       );
+      //     }
+      //     if (state.postStatus == FeeReceiptPostStatus.imageLoaded) {
+      //       return Center(
+      //         child: state.feeReceiptModel?.receiptUrl != null
+      //             ? Image.network(state.feeReceiptModel?.receiptUrl ?? '')
+      //             : Text('No image uploaded'),
+      //       );
+      //     }
+      //     if (state.postStatus == FeeReceiptPostStatus.pdfLoaded) {
+      //       return Center(
+      //         child: state.feeReceiptModel?.receiptUrl != null
+      //             ? ViewPDF(url: state.feeReceiptModel?.receiptUrl ?? '')
+      //             : Text('No PDF uploaded'),
+      //       );
+      //     }
+      //     return const Center(
+      //       child: Text('All Fee receipts'),
+      //     );
+      //   },
+      // ),
     );
   }
 }
