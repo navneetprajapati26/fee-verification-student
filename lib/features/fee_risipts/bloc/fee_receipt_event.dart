@@ -18,9 +18,17 @@ class UploadImageEvent extends FeeReceiptEvent {
 }
 
 class UploadPDFEvent extends FeeReceiptEvent {
-  final String folderName;
+  String folderName;
+  String receiptName;
+  String receiptYear;
+  String receiptAmount;
 
-  UploadPDFEvent(this.folderName);
+  UploadPDFEvent({
+    required this.folderName,
+    required this.receiptName,
+    required this.receiptYear,
+    required this.receiptAmount,
+  });
 }
 
 class GetFeeReceiptsByListOfIdEvent extends FeeReceiptEvent {

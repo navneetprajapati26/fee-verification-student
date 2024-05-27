@@ -41,7 +41,7 @@ FeeReceiptModel({
       receiptName: map['receiptName'] as String,
       receiptYear: map['receiptYear'] as String,
       receiptAmount: map['receiptAmount'] as String,
-      receiptUrl: map['receiptUrl'] as String,
+      receiptUrl: map['receiptUrl'] ?? "",
       receiptStatus: (map['receiptStatus'] as FeeReceiptStatus?) ?? FeeReceiptStatus.pending, // default to pending if null
     );
   }

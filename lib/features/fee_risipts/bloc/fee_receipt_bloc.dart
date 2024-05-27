@@ -39,12 +39,8 @@ class FeeReceiptBloc extends Bloc<FeeReceiptEvent, FeeReceiptState> {
       _authBloc.add(GetUserModel());
       AuthState authState = _authBloc.state;
 
-      // String? userId = await authState.user!.userId;
-      // if(userId == null) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? userId = prefs.getString('userId');
-
-      // }
 
       String? imageUrl = await _storageUtils.uploadImage(FolderName.images);
 
@@ -82,12 +78,42 @@ class FeeReceiptBloc extends Bloc<FeeReceiptEvent, FeeReceiptState> {
 
     on<UploadPDFEvent>((event, emit) async {
       emit(state.copyWith(postStatus: FeeReceiptPostStatus.loading));
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? userId = prefs.getString('userId');
+
       try {
         String? pdfUrl = await _storageUtils.uploadPDF(event.folderName);
+
+        FeeReceiptModel feeReceiptModel = FeeReceiptModel(
+            receiptUrl: pdfUrl,
+            studentId: userId,
+            receiptName: event.receiptName,
+            receiptYear: event.receiptYear,
+            receiptAmount: event.receiptAmount);
+
+        FeeReceiptModel addedFeeReceiptModel =
+            await _feeReceiptRepository.addFeeReceipt(feeReceiptModel);
+
+        var studentFeeReceiptsIdList = authState.user!.studentFeeReceiptsIdList;
+        studentFeeReceiptsIdList!.add(addedFeeReceiptModel.id!);
+
+        _authBloc.add(UpdateUserInfo(authState.user!
+            .copyWith(studentFeeReceiptsIdList: studentFeeReceiptsIdList)));
+
+        List<FeeReceiptModel> feeReceipts = await getFeeReceipts();
+
         emit(state.copyWith(
           postStatus: FeeReceiptPostStatus.pdfLoaded,
-          feeReceiptModel: state.feeReceiptModel!.copyWith(receiptUrl: pdfUrl),
+          feeReceiptModel: addedFeeReceiptModel,
+          getStatus: FeeReceiptGetStatus.loaded,
+          feeReceiptModelList: feeReceipts,
         ));
+
+        // emit(state.copyWith(
+        //   postStatus: FeeReceiptPostStatus.pdfLoaded,
+        //   feeReceiptModel: state.feeReceiptModel!.copyWith(receiptUrl: pdfUrl),
+        // ));
       } catch (e) {
         // Handle error here
       }

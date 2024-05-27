@@ -45,7 +45,10 @@ class _AllFeeReceiptState extends State<AllFeeReceipt> {
             onPressed: () {
               context
                   .read<FeeReceiptBloc>()
-                  .add(UploadPDFEvent('your_folder_name'));
+                  .add(UploadPDFEvent( folderName: 'your_folder_name',
+                  receiptName: 'your_receipt_name',
+                  receiptYear: 'your_receipt_year',
+                  receiptAmount: 'your_receipt_amount'));
             },
             child: const Icon(Icons.picture_as_pdf),
             heroTag: 'pdfUpload',
