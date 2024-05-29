@@ -1,3 +1,6 @@
+
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -59,13 +62,16 @@ class _AllFeeReceiptState extends State<AllFeeReceipt> {
       children: [
         FloatingActionButton(
           onPressed: () {
-            context.read<FeeReceiptBloc>().add(UploadImageEvent(
-                folderName: 'your_folder_name',
-                receiptName: 'your_receipt_name',
-                receiptYear: 'your_receipt_year',
-                receiptAmount: 'your_receipt_amount'));
+            // context.read<FeeReceiptBloc>().add(UploadImageEvent(
+            //     folderName: 'your_folder_name',
+            //     receiptName: 'your_receipt_name',
+            //     receiptYear: 'your_receipt_year',
+            //     receiptAmount: 'your_receipt_amount'));
 
-            //_addNewReceipt(context);
+            showDialog(
+              context: context,
+              builder: (context) => _addNewReceipt(context),
+            );
           },
           child: const Icon(Icons.cloud_upload),
           heroTag: 'imageUpload',
@@ -90,6 +96,8 @@ class _AllFeeReceiptState extends State<AllFeeReceipt> {
   }
 
   Widget _addNewReceipt(BuildContext context) {
+
+    log("in addNewReceipt",name: "addNewReceipt");
 
     String? receiptName = "";
     String? receiptYear = "";
@@ -146,13 +154,13 @@ class _AllFeeReceiptState extends State<AllFeeReceipt> {
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                   TextButton(
-                    child: const Text('Add'),
+                    child: const Text('Add Doc'),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
                         context
                             .read<FeeReceiptBloc>()
-                            .add(UploadPDFEvent( folderName: 'your_folder_name',
+                            .add(UploadImageEvent( folderName: 'your_folder_name',
                             receiptName: receiptName!,
                             receiptYear: receiptYear!,
                             receiptAmount: receiptAmount!));
