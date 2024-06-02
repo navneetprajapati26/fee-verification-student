@@ -39,7 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
 
       final studentModel = StudentModel(
-        username: event.username,
+        yearOfAdmission: event.yearOfAdmission,
         userId: userCredential.user!.uid,
         userEmailId: event.email,
         studentName: event.studentName,

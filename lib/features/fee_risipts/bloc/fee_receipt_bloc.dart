@@ -49,9 +49,10 @@ class FeeReceiptBloc extends Bloc<FeeReceiptEvent, FeeReceiptState> {
       FeeReceiptModel feeReceiptModel = FeeReceiptModel(
           receiptUrl: imageUrl,
           studentId: userId,
-          receiptName: event.receiptName,
+          receiptType: event.receiptType,
           receiptYear: event.receiptYear,
-          receiptAmount: event.receiptAmount);
+          receiptAmount: event.receiptAmount,
+          receiptNum: event.receiptNumber );
 
       FeeReceiptModel addedFeeReceiptModel =
           await _feeReceiptRepository.addFeeReceipt(feeReceiptModel);
@@ -88,7 +89,7 @@ class FeeReceiptBloc extends Bloc<FeeReceiptEvent, FeeReceiptState> {
         FeeReceiptModel feeReceiptModel = FeeReceiptModel(
             receiptUrl: pdfUrl,
             studentId: userId,
-            receiptName: event.receiptName,
+            receiptType: event.receiptName,
             receiptYear: event.receiptYear,
             receiptAmount: event.receiptAmount);
 

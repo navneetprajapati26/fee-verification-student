@@ -38,7 +38,7 @@ class UserInfoScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('Username: ${state.user!.username}'),
+                    Text('Username: ${state.user!.yearOfAdmission}'),
                     Text('User ID: ${state.user!.userId}'),
                     Text('Email: ${state.user!.userEmailId}'),
                     Text('Student Name: ${state.user!.studentName}'),

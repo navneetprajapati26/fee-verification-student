@@ -1,21 +1,19 @@
-
-enum FeeReceiptStatus { pending, approved, rejected }
-
+import '../../../constents/constents.dart';
 
 class FeeReceiptModel {
   String? id;
   String? studentId;
-
-  String? receiptName;
+  String? receiptType;
+  String? receiptNum;
   String? receiptYear;
   String? receiptAmount;
   String? receiptUrl;
-  FeeReceiptStatus? receiptStatus;
+  String? receiptStatus;
 
-FeeReceiptModel({
+  FeeReceiptModel({
     this.id,
     this.studentId,
-    this.receiptName,
+    this.receiptType, this.receiptNum,
     this.receiptYear,
     this.receiptAmount,
     this.receiptUrl,
@@ -26,11 +24,12 @@ FeeReceiptModel({
     return {
       'id': this.id,
       'studentId': this.studentId,
-      'receiptName': this.receiptName,
+      'receiptType': this.receiptType,
+      'receiptNum': this.receiptNum,
       'receiptYear': this.receiptYear,
       'receiptAmount': this.receiptAmount,
       'receiptUrl': this.receiptUrl,
-      'receiptStatus': this.receiptStatus,
+      'receiptStatus': this.receiptStatus ?? ListConstent.FeeReceiptStatus[0] ,
     };
   }
 
@@ -38,33 +37,30 @@ FeeReceiptModel({
     return FeeReceiptModel(
       id: map['id'] as String,
       studentId: map['studentId'] as String,
-      receiptName: map['receiptName'] as String,
+      receiptType: map['receiptType'] as String,
+      receiptNum: map['receiptNum'] as String,
       receiptYear: map['receiptYear'] as String,
       receiptAmount: map['receiptAmount'] as String,
-      receiptUrl: map['receiptUrl'] ?? "",
-      receiptStatus: (map['receiptStatus'] as FeeReceiptStatus?) ?? FeeReceiptStatus.pending, // default to pending if null
+      receiptUrl: map['receiptUrl'] as String,
+      receiptStatus: map['receiptStatus'] as String? ?? ListConstent.FeeReceiptStatus[0],
     );
-  }
-
-
-  @override
-  String toString() {
-    return 'FeeReceiptModel{id: $id, studentId: $studentId, receiptName: $receiptName, receiptYear: $receiptYear, receiptAmount: $receiptAmount, receiptUrl: $receiptUrl, receiptStatus: $receiptStatus}';
   }
 
   FeeReceiptModel copyWith({
     String? id,
     String? studentId,
-    String? receiptName,
+    String? receiptType,
+    String? receiptNum,
     String? receiptYear,
     String? receiptAmount,
     String? receiptUrl,
-    FeeReceiptStatus? receiptStatus,
+    String? receiptStatus,
   }) {
     return FeeReceiptModel(
       id: id ?? this.id,
       studentId: studentId ?? this.studentId,
-      receiptName: receiptName ?? this.receiptName,
+      receiptType: receiptType ?? this.receiptType,
+      receiptNum: receiptNum ?? this.receiptNum,
       receiptYear: receiptYear ?? this.receiptYear,
       receiptAmount: receiptAmount ?? this.receiptAmount,
       receiptUrl: receiptUrl ?? this.receiptUrl,
@@ -72,4 +68,8 @@ FeeReceiptModel({
     );
   }
 
+  @override
+  String toString() {
+    return 'FeeReceiptModel{id: $id, studentId: $studentId, receiptType: $receiptType, receiptNum: $receiptNum, receiptYear: $receiptYear, receiptAmount: $receiptAmount, receiptUrl: $receiptUrl, receiptStatus: $receiptStatus}';
+  }
 }

@@ -1,5 +1,5 @@
 class StudentModel {
-  final String username;
+  final String yearOfAdmission;
   final String userId;
   final String userEmailId;
   final String studentName;
@@ -10,7 +10,7 @@ class StudentModel {
   final List<String>? studentFeeReceiptsIdList ;
 
   StudentModel({
-    required this.username,
+    required this.yearOfAdmission,
     required this.userId,
     required this.userEmailId,
     required this.studentName,
@@ -24,12 +24,12 @@ class StudentModel {
 
   @override
   String toString() {
-    return 'StudentModel{username: $username, userId: $userId, userEmailId: $userEmailId, studentName: $studentName, studentRollNo: $studentRollNo, studentYear: $studentYear, studentBranch: $studentBranch, isStudentVerified: $isStudentVerified, studentFeeReceiptsIdList: $studentFeeReceiptsIdList}';
+    return 'StudentModel{yearOfAdmission: $yearOfAdmission, userId: $userId, userEmailId: $userEmailId, studentName: $studentName, studentRollNo: $studentRollNo, studentYear: $studentYear, studentBranch: $studentBranch, isStudentVerified: $isStudentVerified, studentFeeReceiptsIdList: $studentFeeReceiptsIdList}';
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'username': this.username,
+      'yearOfAdmission': this.yearOfAdmission,
       'userId': this.userId,
       'userEmailId': this.userEmailId,
       'studentName': this.studentName,
@@ -43,7 +43,7 @@ class StudentModel {
 
   factory StudentModel.fromMap(Map<String, dynamic> map) {
     return StudentModel(
-      username: map['username'] as String? ?? '',
+      yearOfAdmission: map['yearOfAdmission'] as String? ?? '',
       userId: map['userId'] as String? ?? '',
       userEmailId: map['userEmailId'] as String? ?? '',
       studentName: map['studentName'] as String? ?? '',
@@ -56,7 +56,7 @@ class StudentModel {
   }
 
   StudentModel copyWith({
-    String? username,
+    String? yearOfAdmission,
     String? userId,
     String? userEmailId,
     String? studentName,
@@ -67,7 +67,7 @@ class StudentModel {
     List<String>? studentFeeReceiptsIdList,
   }) {
     return StudentModel(
-      username: username ?? this.username,
+      yearOfAdmission: yearOfAdmission ?? this.yearOfAdmission,
       userId: userId ?? this.userId,
       userEmailId: userEmailId ?? this.userEmailId,
       studentName: studentName ?? this.studentName,
@@ -75,8 +75,7 @@ class StudentModel {
       studentYear: studentYear ?? this.studentYear,
       studentBranch: studentBranch ?? this.studentBranch,
       isStudentVerified: isStudentVerified ?? this.isStudentVerified,
-      studentFeeReceiptsIdList:
-          studentFeeReceiptsIdList ?? this.studentFeeReceiptsIdList,
+      studentFeeReceiptsIdList: studentFeeReceiptsIdList ?? this.studentFeeReceiptsIdList,
     );
   }
 }

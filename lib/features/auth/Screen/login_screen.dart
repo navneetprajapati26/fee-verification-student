@@ -3,7 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../constents/constents.dart';
 import '../../../screen_setup/screen_setup.dart';
+import '../../../widget/dropdown_button.dart';
+import '../../../widget/year_picker.dart';
 import '../bloc/auth_bloc.dart';
 import '../repo/auth_rapo.dart';
 
@@ -18,11 +21,16 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _usernameController = TextEditingController();
   final _studentNameController = TextEditingController();
   final _studentRollNoController = TextEditingController();
-  final _studentYearController = TextEditingController();
-  final _studentBranchController = TextEditingController();
+
+
+
+  late final String _yearOfAdmission ;
+  late final String _studentYear;
+  late final String _studentBranch;
+
+
   bool _isLogin = false;
 
   bool _isPasswordHidden = true;
@@ -37,11 +45,8 @@ class _AuthScreenState extends State<AuthScreen> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-    _usernameController.dispose();
     _studentNameController.dispose();
     _studentRollNoController.dispose();
-    _studentYearController.dispose();
-    _studentBranchController.dispose();
     super.dispose();
   }
 
@@ -103,13 +108,6 @@ class _AuthScreenState extends State<AuthScreen> {
                   if (!_isLogin) ...[
                     SizedBox(height: 16.0),
                     TextField(
-                      controller: _usernameController,
-                      decoration: InputDecoration(
-                        labelText: 'Username',
-                      ),
-                    ),
-                    SizedBox(height: 16.0),
-                    TextField(
                       controller: _studentNameController,
                       decoration: InputDecoration(
                         labelText: 'Student Name',
@@ -123,19 +121,45 @@ class _AuthScreenState extends State<AuthScreen> {
                       ),
                     ),
                     SizedBox(height: 16.0),
-                    TextField(
-                      controller: _studentYearController,
-                      decoration: InputDecoration(
-                        labelText: 'Student Year',
-                      ),
+
+                    YearPickerWidget(
+                      startYear: 2000,
+                      endYear: 2030,
+                      onYearChanged: (year) {
+                        print('Selected Year: $year');
+
+                        setState(() {
+                          _yearOfAdmission = year.toString();
+                        });
+                      },
                     ),
                     SizedBox(height: 16.0),
-                    TextField(
-                      controller: _studentBranchController,
-                      decoration: InputDecoration(
-                        labelText: 'Student Branch',
-                      ),
+                    CustomDropdownButton(
+                      items:ListConstent.studentYear,
+                      hint: 'Select student year',
+                      onChanged: (value) {
+                        print('Selected: $value');
+
+                        setState(() {
+                          _studentYear = value!;
+                        });
+
+                      },
                     ),
+                    SizedBox(height: 16.0),
+                    CustomDropdownButton(
+                      items:ListConstent.branches,
+                      hint: 'Select a branch',
+                      onChanged: (value) {
+                        print('Selected: $value');
+
+
+                        setState(() {
+                          _studentBranch = value!;
+                        });
+                      },
+                    ),
+
                   ],
                   SizedBox(height: 16.0),
                   ElevatedButton(
@@ -148,17 +172,16 @@ class _AuthScreenState extends State<AuthScreen> {
                           ),
                         );
                       } else {
+
                         context.read<AuthBloc>().add(
                           SignUpRequested(
                             email: _emailController.text.trim(),
                             password: _passwordController.text.trim(),
-                            username: _usernameController.text.trim(),
+                            yearOfAdmission: _yearOfAdmission,
                             studentName: _studentNameController.text.trim(),
-                            studentRollNo:
-                            _studentRollNoController.text.trim(),
-                            studentYear: _studentYearController.text.trim(),
-                            studentBranch:
-                            _studentBranchController.text.trim(),
+                            studentRollNo: _studentRollNoController.text.trim(),
+                            studentYear: _studentYear,
+                            studentBranch: _studentBranch,
                           ),
                         );
                       }

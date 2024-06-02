@@ -49,8 +49,7 @@ class FeeReceiptRepository {
     return null;
   }
 
-  Future<List<FeeReceiptModel>> getFeeReceiptsByIds(
-      {required List<String> feeReceiptIds}) async {
+  Future<List<FeeReceiptModel>> getFeeReceiptsByIds({required List<String> feeReceiptIds}) async {
     List<FeeReceiptModel> feeReceipts = [];
 
     for (String id in feeReceiptIds) {

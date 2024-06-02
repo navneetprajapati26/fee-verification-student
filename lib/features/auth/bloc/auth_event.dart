@@ -20,7 +20,7 @@ class SignInRequested extends AuthEvent {
 class SignUpRequested extends AuthEvent {
   final String email;
   final String password;
-  final String username;
+  final String yearOfAdmission;
   final String studentName;
   final String studentRollNo;
   final String studentYear;
@@ -29,7 +29,7 @@ class SignUpRequested extends AuthEvent {
   const SignUpRequested({
     required this.email,
     required this.password,
-    required this.username,
+    required this.yearOfAdmission,
     required this.studentName,
     required this.studentRollNo,
     required this.studentYear,
@@ -40,7 +40,7 @@ class SignUpRequested extends AuthEvent {
   List<Object> get props => [
     email,
     password,
-    username,
+    yearOfAdmission,
     studentName,
     studentRollNo,
     studentYear,

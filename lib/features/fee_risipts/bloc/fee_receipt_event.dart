@@ -5,15 +5,17 @@ abstract class FeeReceiptEvent {}
 
 class UploadImageEvent extends FeeReceiptEvent {
   String folderName;
-  String receiptName;
+  String receiptType;
   String receiptYear;
   String receiptAmount;
+  String receiptNumber;
 
   UploadImageEvent({
     required this.folderName,
-    required this.receiptName,
+    required this.receiptType,
     required this.receiptYear,
     required this.receiptAmount,
+    required this.receiptNumber,
   });
 }
 

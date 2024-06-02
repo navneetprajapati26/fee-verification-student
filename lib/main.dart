@@ -20,8 +20,7 @@ void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? userId = prefs.getString('userId');
 
-  String initialRoute = userId != null ? ScreenSetUp.routeName : AuthScreen
-      .routeName;
+  String initialRoute = userId != null ? ScreenSetUp.routeName : AuthScreen.routeName;
 
   runApp(MyApp(
     initialRoute: initialRoute,

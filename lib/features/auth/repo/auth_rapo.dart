@@ -65,8 +65,7 @@ class AuthRepository {
         userId = user.uid;
       }
 
-      final snapshot =
-          await _firebaseFirestore.collection('student').doc(userId).get();
+      final snapshot = await _firebaseFirestore.collection('student').doc(userId).get();
       if (snapshot.exists) {
         return StudentModel.fromMap(snapshot.data()!);
       }
