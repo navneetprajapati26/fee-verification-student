@@ -32,7 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     print('sign up requested ${state}');
 
     emit(state.copyWith(status: AuthStateStatus.loading));
-    try {
+    // try {
       final userCredential = await authRepository.signUp(
         event.email,
         event.password,
@@ -55,13 +55,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         user: studentModel,
       ));
       print('Sign up successful, state: ${state}');
-    } catch (e) {
-      emit(state.copyWith(
-        status: AuthStateStatus.error,
-        errorMessage: e.toString(),
-      ));
-      print('Sign up failed, state: ${state}');
-    }
+    // } catch (e) {
+    //   emit(state.copyWith(
+    //     status: AuthStateStatus.error,
+    //     errorMessage: e.toString(),
+    //   ));
+    //   print('Sign up failed, state: ${state}');
+    // }
   }
 
   Future<void> _onSignInRequested(
@@ -69,7 +69,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     emit(state.copyWith(status: AuthStateStatus.loading));
-    try {
+   // try {
       await authRepository.signIn(event.email, event.password);
 
       final studentModel = await authRepository.getUserInfo();
@@ -88,12 +88,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           errorMessage: 'User information not found',
         ));
       }
-    } catch (e) {
-      emit(state.copyWith(
-        status: AuthStateStatus.error,
-        errorMessage: e.toString(),
-      ));
-    }
+    // } catch (e) {
+    //   emit(state.copyWith(
+    //     status: AuthStateStatus.error,
+    //     errorMessage: e.toString(),
+    //   ));
+    // }
   }
 
   Future<void> _onGetUserModel(

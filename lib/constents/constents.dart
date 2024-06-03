@@ -26,7 +26,7 @@ class ListConstent{
     "Fourth Year",
   ];
 
-  static const List<String> FeeReceiptStatus = [
+  static const List<String> feeReceiptStatus = [
     "pending", "approved", "rejected"
   ];
 

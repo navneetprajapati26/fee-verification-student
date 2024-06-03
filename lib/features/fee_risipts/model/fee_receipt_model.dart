@@ -9,6 +9,7 @@ class FeeReceiptModel {
   String? receiptAmount;
   String? receiptUrl;
   String? receiptStatus;
+  String? receiptVerifiedBy;
 
   FeeReceiptModel({
     this.id,
@@ -18,6 +19,7 @@ class FeeReceiptModel {
     this.receiptAmount,
     this.receiptUrl,
     this.receiptStatus,
+    this.receiptVerifiedBy
   });
 
   Map<String, dynamic> toMap() {
@@ -29,7 +31,8 @@ class FeeReceiptModel {
       'receiptYear': this.receiptYear,
       'receiptAmount': this.receiptAmount,
       'receiptUrl': this.receiptUrl,
-      'receiptStatus': this.receiptStatus ?? ListConstent.FeeReceiptStatus[0] ,
+      'receiptStatus': this.receiptStatus ?? ListConstent.feeReceiptStatus[0],
+      'receiptVerifiedBy': this.receiptVerifiedBy ?? "",
     };
   }
 
@@ -42,8 +45,16 @@ class FeeReceiptModel {
       receiptYear: map['receiptYear'] as String,
       receiptAmount: map['receiptAmount'] as String,
       receiptUrl: map['receiptUrl'] as String,
-      receiptStatus: map['receiptStatus'] as String? ?? ListConstent.FeeReceiptStatus[0],
+      receiptStatus: map['receiptStatus'] as String? ?? ListConstent.feeReceiptStatus[0],
+      receiptVerifiedBy: map['receiptVerifiedBy'] as String? ?? "",
     );
+  }
+
+
+
+  @override
+  String toString() {
+    return 'FeeReceiptModel{id: $id, studentId: $studentId, receiptType: $receiptType, receiptNum: $receiptNum, receiptYear: $receiptYear, receiptAmount: $receiptAmount, receiptUrl: $receiptUrl, receiptStatus: $receiptStatus}';
   }
 
   FeeReceiptModel copyWith({
@@ -55,6 +66,7 @@ class FeeReceiptModel {
     String? receiptAmount,
     String? receiptUrl,
     String? receiptStatus,
+    String? receiptVerifiedBy,
   }) {
     return FeeReceiptModel(
       id: id ?? this.id,
@@ -65,11 +77,7 @@ class FeeReceiptModel {
       receiptAmount: receiptAmount ?? this.receiptAmount,
       receiptUrl: receiptUrl ?? this.receiptUrl,
       receiptStatus: receiptStatus ?? this.receiptStatus,
+      receiptVerifiedBy: receiptVerifiedBy ?? this.receiptVerifiedBy,
     );
-  }
-
-  @override
-  String toString() {
-    return 'FeeReceiptModel{id: $id, studentId: $studentId, receiptType: $receiptType, receiptNum: $receiptNum, receiptYear: $receiptYear, receiptAmount: $receiptAmount, receiptUrl: $receiptUrl, receiptStatus: $receiptStatus}';
   }
 }

@@ -41,22 +41,23 @@ class _AllFeeReceiptState extends State<AllFeeReceipt> {
             );
           }
           if (state.getStatus == FeeReceiptGetStatus.loaded) {
-            return Center(
+            return RefreshIndicator(
+              onRefresh: () async {
+                context.read<FeeReceiptBloc>().add(GetFeeReceiptsByListOfIdEvent());
+
+              },
               child: state.feeReceiptModelList != null
                   ? ListView.builder(
                 itemCount: state.feeReceiptModelList!.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    leading: leadingIcon(
-                        state.feeReceiptModelList![index].receiptStatus!),
+                    leading: leadingIcon(state.feeReceiptModelList![index].receiptStatus!),
                     title: Text(state.feeReceiptModelList![index].receiptType!),
-                    subtitle: Text("${state.feeReceiptModelList![index]
-                        .receiptYear!} ${state.feeReceiptModelList![index]
-                        .receiptStatus!}"),
+                    subtitle: Text("${state.feeReceiptModelList![index].receiptYear!} ${state.feeReceiptModelList![index].receiptVerifiedBy ?? state.feeReceiptModelList![index].receiptStatus!}"),
                   );
                 },
               )
-                  : Text('No image uploaded'),
+                  : const Text('No image uploaded'),
             );
           }
           return const Center(
@@ -120,14 +121,14 @@ class _AllFeeReceiptState extends State<AllFeeReceipt> {
   }
 
   Widget leadingIcon(String? receiptStatus) {
-    if (receiptStatus == ListConstent.FeeReceiptStatus[0]) {
+    if (receiptStatus == ListConstent.feeReceiptStatus[0]) {
       return Container(decoration: BoxDecoration(
           shape: BoxShape.circle, color: Colors.yellow), child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: const Icon(Icons.padding_outlined, color: Colors.black,),
       ));
     }
-    if (receiptStatus == ListConstent.FeeReceiptStatus[1]) {
+    if (receiptStatus == ListConstent.feeReceiptStatus[1]) {
       return Container(
         decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.green),
         child: Padding(
@@ -136,7 +137,7 @@ class _AllFeeReceiptState extends State<AllFeeReceipt> {
         ),
       );
     }
-    if (receiptStatus == ListConstent.FeeReceiptStatus[2]) {
+    if (receiptStatus == ListConstent.feeReceiptStatus[2]) {
       return Container(
         decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red),
         child: Padding(

@@ -11,25 +11,25 @@ class AuthRepository {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   Future<UserCredential> signUp(String email, String password) async {
-    try {
+  //  try {
       return await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-    } catch (e) {
-      throw Exception('Error signing up: $e');
-    }
+    // } catch (e) {
+    //   throw Exception('Error signing up: $e');
+    // }
   }
 
   Future<void> signIn(String email, String password) async {
-    try {
+   // try {
       await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-    } catch (e) {
-      throw Exception('Error signing in: $e');
-    }
+    // } catch (e) {
+    //   throw Exception('Error signing in: $e');
+    // }
   }
 
   Future<void> signOut() async {
