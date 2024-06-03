@@ -22,6 +22,7 @@ class FeeReceiptState extends Equatable {
   final String? errorMessage;
   final FeeReceiptModel? feeReceiptModel;
   final List<FeeReceiptModel>? feeReceiptModelList;
+  final StudentModel? studentModel;
 
 
   const FeeReceiptState({
@@ -30,6 +31,7 @@ class FeeReceiptState extends Equatable {
     this.errorMessage,
     this.feeReceiptModel,
     this.feeReceiptModelList,
+    this.studentModel
   });
 
   factory FeeReceiptState.initial() {
@@ -39,13 +41,14 @@ class FeeReceiptState extends Equatable {
       errorMessage: "",
       feeReceiptModel: null,
       feeReceiptModelList: [],
+      studentModel: null,
     );
   }
 
 
 
   @override
-  List<Object?> get props => [postStatus,getStatus, errorMessage, feeReceiptModel, feeReceiptModelList];
+  List<Object?> get props => [postStatus,getStatus, errorMessage, feeReceiptModel, feeReceiptModelList,studentModel];
 
   FeeReceiptState copyWith({
     FeeReceiptPostStatus? postStatus,
@@ -53,6 +56,7 @@ class FeeReceiptState extends Equatable {
     String? errorMessage,
     FeeReceiptModel? feeReceiptModel,
     List<FeeReceiptModel>? feeReceiptModelList,
+    StudentModel? studentModel,
   }) {
     return FeeReceiptState(
       postStatus: postStatus ?? this.postStatus,
@@ -60,6 +64,7 @@ class FeeReceiptState extends Equatable {
       errorMessage: errorMessage ?? this.errorMessage,
       feeReceiptModel: feeReceiptModel ?? this.feeReceiptModel,
       feeReceiptModelList: feeReceiptModelList ?? this.feeReceiptModelList,
+      studentModel: studentModel ?? this.studentModel,
     );
   }
 }

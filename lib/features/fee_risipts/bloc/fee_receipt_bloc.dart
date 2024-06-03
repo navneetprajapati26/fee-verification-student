@@ -134,9 +134,14 @@ class FeeReceiptBloc extends Bloc<FeeReceiptEvent, FeeReceiptState> {
       // List<FeeReceiptModel> feeReceipts = await _feeReceiptRepository.getFeeReceiptsByIds(feeReceiptIds: feeReceiptIds);
       //
       List<FeeReceiptModel> feeReceipts = await getFeeReceipts();
+
+      final AuthRepository authRepository = AuthRepository();
+
+      StudentModel? studentModel = await authRepository.getUserInfo();
       emit(state.copyWith(
         getStatus: FeeReceiptGetStatus.loaded,
         feeReceiptModelList: feeReceipts,
+        studentModel: studentModel
       ));
       // } catch (e) {
       //   // Handle error here
