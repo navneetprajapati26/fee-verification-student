@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'features/auth/Screen/login_screen.dart';
+import 'features/auth/Screen/s.dart';
 import 'features/auth/bloc/auth_bloc.dart';
 import 'features/auth/repo/auth_rapo.dart';
 import 'features/fee_risipts/bloc/fee_receipt_bloc.dart';
@@ -20,7 +21,8 @@ void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? userId = prefs.getString('userId');
 
-  String initialRoute = userId != null ? ScreenSetUp.routeName : AuthScreen.routeName;
+  // String initialRoute = userId != null ? ScreenSetUp.routeName : AuthScreen.routeName;
+  String initialRoute = SplashScreen.routeName;
 
   runApp(MyApp(
     initialRoute: initialRoute,
@@ -56,6 +58,7 @@ class MyApp extends StatelessWidget {
         routes: {
           AuthScreen.routeName: (context) => AuthScreen(),
           ScreenSetUp.routeName: (context) => ScreenSetUp(),
+          SplashScreen.routeName: (context) => SplashScreen(),
         },
       ),
     );
